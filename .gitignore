@@ -38,3 +38,10 @@ Thumbs.db
 Desktop.ini
 .vscode/
 .idea/
+
+# Repository-packaged, attributed PNS02 demonstration vectors are intentionally trackable.
+!data/demo/
+!data/demo/pns02/
+!data/demo/pns02/**
+# Keep any future research archives and raw data excluded.
+data/demo/**/*.zip

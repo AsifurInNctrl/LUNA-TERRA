@@ -1,43 +1,11 @@
-# Limitations and uncertainty
+# Limitations
 
-> Status: initial template. `docs/research_basis.md` contains provisional
-> research choices and published literature summaries, not LUNA-TERRA results.
-
-Update this document as data and methods are selected. Separate known
-limitations from questions that remain unassessed.
-
-## Current project status
-
-- Data integration is under development; no source observations are bundled.
-- Terrain analysis and analog-comparison methods are proposed only as a
-  roadmap; no such analysis has been implemented or validated.
-- The prototype therefore provides no scientific scores, observations, or
-  candidate rankings.
-- Provisional references in the research plan are PNS02/Peak Near Shackleton
-  and Jezero Crater, with CR05/Connecting Ridge as a secondary lunar case.
-- Proposed Earth benchmarks are Atacama salars, Haughton Impact Crater, Lake
-  Bonney/McMurdo Dry Valleys, Lonar Crater, and Rio Tinto. These selections do
-  not establish that any site is a verified analog.
-- Exact AOIs, data coverage, downloaded datasets, processing, and validation
-  remain unfinalized or unassessed.
-
-## Assessment template
-
-- Coverage gaps and sampling bias:
-- Resolution and scale mismatch between sources:
-- Sensor, calibration, and processing uncertainty:
-- Coordinate, unit, and registration uncertainty:
-- Method assumptions and sensitivity:
-- Validation coverage and independent checks:
-- Interpretive limits: an Earth analog supports only a purpose-specific,
-  evidence-based comparison and does not reproduce every condition on the
-  Moon or Mars.
-- Known failure cases:
-- Open questions and planned assessments:
-
-## Interpretation boundary
-
-Keep published findings from cited papers separate from LUNA-TERRA's proposed
-site selections and from unverified hypotheses about new analog candidates.
-An Earth benchmark may be useful for a specific question without reproducing
-all lunar or Martian conditions.
+- This is a lunar spatial evidence viewer, not a validated Earth analog discovery or ranking system.
+- No NASA mission raster/altimetry observations are currently integrated.
+- Source PSR and exploration layers use different lunar projected CRSs; the app transforms PSRs into the exploration-area CRS using their supplied WKT. The CRS names/datum conventions originate in the source data and have not been independently re-derived from mission control networks.
+- Five PSR polygons have positive-area overlap with the 2 km exploration zone. Intersection does not by itself establish that a crater-center record and PSR polygon identify the same geological object.
+- ID 335 has an approximately 59.8 km workbook-coordinate versus PSR polygon mismatch. No coordinate or identifier was altered.
+- Workbook and shapefile attributes both contain `meanAge`, but values differ for all five target IDs; names alone do not prove matching definitions.
+- DBF fields remain displayed under original names (`Volatiles_`, `Volatiles1`). The app does not label a field `Volatiles_max` or sum volatile estimates. Published cumulative value and source aggregation rule remain unresolved.
+- The cited paper's estimates are models, not direct evidence of accessible ice. Supporting Information S1 method review is incomplete.
+- Shapefile attributes may omit field aliases, units, uncertainty, and model provenance; consult the Zenodo layer file, paper, and SI before quantitative interpretation.

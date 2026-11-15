@@ -1,69 +1,56 @@
-# LUNA-TERRA
+# LUNA-TERRA — PNS02 Evidence Explorer
 
-LUNA-TERRA is an early-stage project for the 2026 NASA Space Apps Challenge,
-**“Identify Earth Locations that Analog the Permanent Moon Base Locations and
-Mars.”** The research basis proposes purpose-specific Earth analog environments
-for selected lunar and Martian reference regions. Its provisional primary
-references are PNS02 in the Peak Near Shackleton region on the Moon and Jezero
-Crater on Mars; CR05 (Connecting Ridge) is a provisional secondary lunar case.
-Atacama salars, Haughton Impact Crater, Lake Bonney/McMurdo Dry Valleys, Lonar
-Crater, and Rio Tinto are proposed Earth benchmark environments. These are
-research selections, not verified analog results. Potential comparison
-dimensions include terrain, geological, and environmental characteristics.
+A Streamlit evidence explorer for candidate landing site PNS02 and nearby permanently shadowed regions near the lunar south pole. It inspects supplied official vector data and exposes unresolved source relationships. It does not identify or rank Earth analogs yet.
 
-Any similarity claim must be evidence-based, with sources, methods, and
-uncertainty documented. An Earth analog may inform a specific purpose, but it
-does not reproduce every condition on the Moon or Mars.
+## Current functionality
 
-**This repository is a scaffold. Data integration is under development.** It
-contains no downloaded or integrated scientific datasets, analyzed
-observations, model outputs, similarity scores, or candidate rankings. The
-named regions and benchmarks remain provisional; exact AOIs, dataset
-availability, processing, and validation have not been finalized. The proposed
-workflow is a roadmap:
-raster processing, STAC discovery, terrain analysis, and similarity scoring
-are not implemented. No composite score is currently proposed for the MVP.
+- Loads 141 PSR polygons, landing-site points and the PNS02 2 km exploration area from repository-relative `data/demo/pns02/`.
+- Transforms PSRs from the supplied lunar south-pole stereographic CRS into the verified lunar exploration-area CRS.
+- Displays real polygon geometries in projected lunar X/Y metres, interactive feature selection, source attributes, positive-area overlaps, and PASS/FAIL/INCONCLUSIVE evidence notes.
+- Describes proposed analog benchmark research purposes without reporting unvalidated comparison results.
 
-## Run locally
+## Install and run
 
-The listed direct dependencies are pinned to versions found installed in the
-project environment. No packages were installed while creating this scaffold.
+Python 3.12 is the deployment target. In a clean Python 3.12 environment:
 
 ```powershell
+py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
-streamlit run app.py
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
 ```
 
-Install dependencies separately when you are ready to set up another
-environment:
+Current workspace launch (existing venv):
 
 ```powershell
-python -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-## Repository layout
+Tests:
 
-```text
-app.py                     Streamlit prototype
-src/                       Data and analysis module scaffolds
-data/raw/                  Local source data; ignored by Git
-data/processed/            Local derived data; ignored by Git
-docs/methodology.md         Methodology record template
-docs/data_sources.md       Data provenance template
-docs/limitations.md        Limitations record template
-docs/research_basis.md     Preliminary literature review and research roadmap
-assets/screenshots/        Project screenshots
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-Raw satellite data must not be committed. The `.gitignore` keeps both data
-directories out of version control while preserving their `.gitkeep` markers.
-Do not put secrets in the repository.
+## Data provenance and attribution
 
-## Scientific documentation
+Demo shapefiles are a small set of required components from Wueller et al., *Complementary Data for Wueller et al. (2026)*, Zenodo record v1, DOI [10.5281/zenodo.17084058](https://doi.org/10.5281/zenodo.17084058), licensed CC BY 4.0. Citation: Wueller, L., Berger, L. M., Christopher, H., Sugimoto, K., Thaker, A. D., Carton, L., Jo, W., Lee, S., Pedrelli, R., Sanchez, P., & Kring, D. A. (2026). *Assessing Potential Landing Sites With Favorable Illumination and Accessible, Potentially Volatile-Rich Permanently Shadowed Regions Within Artemis Candidate Landing Regions*. JGR: Planets, 131(3), e2025JE009434. DOI [10.1029/2025JE009434](https://doi.org/10.1029/2025JE009434).
 
-Use `docs/research_basis.md` as a preliminary plan, not as a dataset inventory
-or a report of LUNA-TERRA findings. Complete the templates in `docs/` before
-presenting quantitative results. Record source identifiers, licenses, exact
-AOIs, processing steps, measurement definitions, uncertainty, validation, and
-known limitations. Do not interpret placeholder code as a validated scientific
-method.
+File-level SHA-256 checksums and attribution are in `data/demo/pns02/`. The original source workspace remains outside this repository; workbooks, archives, layerfiles and unrelated datasets are not packaged.
+
+## Streamlit Community Cloud
+
+1. Push the reviewed `main` branch to `AsifurInNctrl/LUNA-TERRA` after your team approves the diff.
+2. In Streamlit Community Cloud, create an app from that repository, branch `main`, entry point `app.py`.
+3. Select Python 3.12 in Advanced settings; dependencies are read from `requirements.txt`.
+4. No secrets or custom configuration are required.
+
+## Scientific limitations and open questions
+
+- ID 335's workbook coordinate is about 59.8 km from PSR polygon `Id_1=335`; no join is corrected.
+- Workbook and polygon `meanAge` fields differ for all five investigated IDs; same field names do not prove equivalent methods.
+- Five-feature volatile aggregation does not reproduce the paper's approximate PNS02 total. The app does not label DBF fields as `Volatiles_max`, aggregate them, or assert accessible water.
+- No NASA mission observation product is integrated. LOLA Site07 5 m/pixel elevation/slope products are a candidate but require local footprint/CRS verification and could be 10s of MB; see `docs/data_sources.md`.
+- Cross-planet analog measurements, uncertainty models, and candidate rankings are not implemented.
+
+See `docs/pns02_validation.md`, `docs/pns02_official_source_reconciliation.md`, and `docs/limitations.md` for validation details.
