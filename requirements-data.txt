@@ -1,0 +1,2 @@
+# Optional offline GeoTIFF validation and preprocessing only; not needed by the deployed app.
+rasterio==1.5.2
