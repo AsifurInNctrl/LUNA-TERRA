@@ -1,9 +1,9 @@
 # Methodology record
 
-> Status: record template. `docs/research_basis.md` proposes a literature-led
-> workflow and provisional comparison dimensions. They are a roadmap: no
-> terrain-analysis or similarity method has been implemented or validated, and
-> no scoring method has been selected for the MVP.
+> Status: methodology record template. `docs/earth_analog_evidence_matrix.md`
+> documents a literature-led evidence framework for five research candidates.
+> It does not report LUNA-TERRA quantitative analog measurements, validated
+> comparisons, a ranking, or a scoring method.
 
 Complete this record before producing or interpreting quantitative results.
 
@@ -14,7 +14,7 @@ Complete this record before producing or interpreting quantitative results.
 - Provisional primary Moon reference: PNS02, Peak Near Shackleton; relevance to the specific base/mission question:
 - Provisional secondary Moon comparison: CR05, Connecting Ridge; intended comparison question:
 - Provisional primary Mars reference: Jezero Crater; exact reference AOI still to be defined:
-- Proposed Earth benchmark environments: Atacama salars; Haughton Impact Crater; Lake Bonney/McMurdo Dry Valleys; Lonar Crater; Rio Tinto:
+- Literature-supported Earth research candidates: Atacama Desert; Haughton Impact Crater; McMurdo Dry Valleys (with West Lake Bonney as a separate supporting sub-ice research extension); Lonar Impact Crater; Río Tinto. See `earth_analog_evidence_matrix.md`.
 - Scope and target terrain, geological, and environmental characteristics:
 
 ## Inputs and preprocessing

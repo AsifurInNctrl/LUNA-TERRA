@@ -1,6 +1,6 @@
 # LUNA-TERRA — PNS02 Evidence Explorer
 
-A Streamlit evidence explorer for candidate landing site PNS02 and nearby permanently shadowed regions near the lunar south pole. It inspects supplied official vector data and exposes unresolved source relationships. It does not identify or rank Earth analogs yet.
+A Streamlit evidence explorer for candidate landing site PNS02 and nearby permanently shadowed regions near the lunar south pole. It inspects supplied source vector data, exposes unresolved source relationships, and organizes literature-supported Earth analog research candidates. It does not quantitatively compare or rank Earth analogs.
 
 ## Current functionality
 
@@ -8,7 +8,7 @@ A Streamlit evidence explorer for candidate landing site PNS02 and nearby perman
 - Transforms PSRs from the supplied lunar south-pole stereographic CRS into the verified lunar exploration-area CRS.
 - Displays real polygon geometries in projected lunar X/Y metres, interactive feature selection, source attributes, positive-area overlaps, and PASS/FAIL/INCONCLUSIVE evidence notes.
 - Presents an independent, precomputed NASA LOLA Site07 full-tile elevation/slope summary with native-grid images and distributions. It is not spatially registered to PNS02.
-- Describes proposed analog benchmark research purposes without reporting unvalidated comparison results.
+- Provides a literature-grounded Earth Analog Evidence Matrix for five distinct research candidates, with sources, process-specific purposes, limitations and future measurement needs. It reports no computational analog validation or ranking.
 
 ## Install and run
 
@@ -55,6 +55,8 @@ File-level SHA-256 checksums and attribution are in `data/demo/pns02/`. Original
 - Cross-planet analog measurements, uncertainty models, and candidate rankings are not implemented.
 
 See `docs/pns02_validation.md`, `docs/pns02_official_source_reconciliation.md`, and `docs/limitations.md` for validation details.
+
+See `docs/earth_analog_evidence_matrix.md` for the evidence hierarchy, candidate rationale, comparison dimensions, citations and data requirements. The matrix is a literature-led research framework; its cited evidence is not a direct LUNA-TERRA measurement.
 
 ### Optional NASA raster preprocessing
 

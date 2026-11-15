@@ -6,6 +6,7 @@ from src.pns02_data import (TARGET_IDS, candidates, load_pns02_data, overlap_sum
                             default_psr_record, default_selection_label, ordered_psr_records,
                             pns02_site_candidates, viewport_bounds)
 from src.nasa_site07 import DEFAULT_PACKAGE_DIR as NASA_SITE07_PACKAGE, load_packaged_summary
+from src.earth_analog_evidence import DIMENSIONS as ANALOG_DIMENSIONS, EARTH_ANALOGS, STATUS as ANALOG_STATUS
 
 st.set_page_config(page_title="LUNA-TERRA | PNS02 Evidence Explorer", page_icon="🌑", layout="wide")
 st.title("🌑 LUNA-TERRA — PNS02 Evidence Explorer")
@@ -13,7 +14,7 @@ st.caption("A source-backed lunar south-pole evidence explorer · NASA Space App
 st.markdown("Investigate supplied permanently shadowed region (PSR) polygons around candidate site PNS02. This viewer shows evidence, not confirmed water resources or Earth-analog rankings.")
 with st.expander("Research context and status", expanded=True):
     st.write("LUNA-TERRA investigates purpose-specific Earth environments that may inform lunar and Martian exploration. PNS02 is a candidate landing site near the lunar south pole.")
-    st.info("Implemented: PNS02 vector evidence and a separate, standalone NASA LOLA Site07 terrain product summary. The NASA raster is not registered to the PNS02 exploration polygon. Earth/Mars comparisons remain proposed; no similarity score is produced.")
+    st.info("Implemented: PNS02 vector evidence, a separate NASA LOLA Site07 terrain product summary, and a literature-grounded Earth analog research matrix. The NASA raster is not registered to PNS02; Earth/Mars quantitative comparisons remain proposed. No similarity score or candidate ranking is produced.")
 try:
     data = load_pns02_data()
 except (OSError, ValueError, shapefile.ShapefileException) as exc:
@@ -145,7 +146,38 @@ else:
         st.json({"surface": elevation, "slope": slope, "grid_alignment": nasa["grid_alignment"], "provenance": nasa["provenance"]})
     st.caption("Raw GeoTIFFs stay outside the repository. The app loads precomputed summaries and full-resolution native-grid visualizations; it does not rehash files at runtime. Processing code and source/output checksums are documented in data/demo/nasa_site07/PROVENANCE.md and checksums.csv.")
 
-st.subheader("Earth Analog Research Roadmap")
-st.caption("Proposed benchmark environments from the literature review; these are research targets, not validated analog rankings.")
-st.markdown("| Proposed benchmark | Research purpose to investigate |\n|---|---|\n| Atacama Desert | Hyperarid terrain and habitability / instrument-testing context for Mars analog research. |\n| Haughton Impact Crater | Impact geology, polar aridity, and field operations in a cold-desert setting. |\n| Lake Bonney / McMurdo Dry Valleys | Cold-desert hydrology, hypersaline lakes, and microbial extremophile environments. |\n| Lonar Crater | Basaltic impact-crater geology and saline/alkaline lake processes. |\n| Rio Tinto | Acidic, iron-rich water-rock interaction and astrobiology research. |")
+st.subheader("Earth Analog Evidence Matrix")
+st.caption("Literature-supported research candidates — not yet quantitatively assessed by LUNA-TERRA. These are process-specific research contexts, not site-suitability findings.")
+st.info("Literature support is separated from project interpretation and proposed future measurements. A citation is not a direct LUNA-TERRA analysis; no composite score or candidate ranking is calculated.")
+matrix_rows = [{
+    "Earth candidate": candidate["name"],
+    "Primary research relevance": candidate["purpose"],
+    "Planetary target/process": candidate["planetary_target"],
+    "Evidence source": "; ".join(source["label"] for source in candidate["sources"][:2]),
+    "Major limitation": candidate["limitations"][0],
+} for candidate in EARTH_ANALOGS]
+st.dataframe(matrix_rows, hide_index=True, width="stretch")
+st.caption("Comparison dimensions used as an organizing framework (not scores): " + " · ".join(ANALOG_DIMENSIONS.values()))
+for candidate in EARTH_ANALOGS:
+    with st.expander(candidate["name"]):
+        st.markdown(f"**Status:** {ANALOG_STATUS}")
+        st.markdown(f"**Research purpose:** {candidate['purpose']}")
+        st.markdown(f"**Planetary target/process:** {candidate['planetary_target']}")
+        st.markdown("**Relevant dimensions:** " + ", ".join(ANALOG_DIMENSIONS[key] for key in candidate["dimensions"]))
+        st.markdown("**Published evidence**  \n" + candidate["evidence"])
+        st.markdown("**LUNA-TERRA interpretation**  \n" + candidate["interpretation"])
+        st.markdown("**What this analogy does not represent**")
+        for limitation in candidate["limitations"]:
+            st.markdown(f"- {limitation}")
+        st.markdown("**Additional observations needed for quantitative comparison**  \n" + candidate["data_needed"])
+        st.markdown("**Sources**")
+        for source in candidate["sources"]:
+            st.markdown(f"- [{source['label']}]({source['url']}) · {source['kind']}")
+        extension = candidate.get("supporting_extension")
+        if extension:
+            st.markdown(f"**Supporting extension — {extension['name']}**")
+            st.markdown(extension["purpose"])
+            st.markdown(f"**Evidence:** {extension['evidence']}")
+            st.markdown(f"**Boundary:** {extension['limitation']}")
+            st.markdown(f"**Source:** [{extension['source']['label']}]({extension['source']['url']})")
 st.markdown("**Attribution:** Lunar source vectors are from Wueller et al., *Complementary Data* (Zenodo v1, 2025), CC BY 4.0. Cite Wueller et al. (2026), JGR: Planets, DOI 10.1029/2025JE009434. Local packaged source-file SHA-256 checksums are in `data/demo/pns02/checksums.csv`.")
